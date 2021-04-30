@@ -6,7 +6,7 @@ import java.util.Random;
 public class MeritBank {
 	
 	private static AccountHolder[] accounts = new AccountHolder[0];
-	private static CDOffering[] cdOfferings = new CDOffering[0];
+	private static CDOffering[] cdOfferings;
 	private static long nextAccountNumber = 1;
 	
 	public static void addAccountHolder(AccountHolder accountHolder) {
@@ -18,27 +18,72 @@ public class MeritBank {
 		accounts = tmp;
 	}
 	
-	public static AccountHolder[] getAccounts() {
+	public static AccountHolder[] getAccountHolders() {
 		return accounts;
 	}
 	
-	public static CDOffering[] getCdOfferings() {
+	public static CDOffering[] getCDOfferings() {
 		return cdOfferings;
 	}
+
+
+	public static CDOffering getBestCDOffering(double depositAmount) {
+		CDOffering bestOffer = null;
+		double highestResult = 0;
+		for (CDOffering x: cdOfferings) {
+			double xFutureValue = futureValue(depositAmount, x.getInterestRate(), x.getTerm());
+			if (xFutureValue > highestResult) {
+				highestResult = xFutureValue;
+				bestOffer = x;
+			}
+		}
+		return bestOffer;
+	}
 	
-	public static void setCdOfferings(CDOffering[] cdOfferings) {
+	public static CDOffering getSecondBestCDOffering(double depositAmount) {
+		CDOffering bestOffer = null;
+		CDOffering secondBestOffer = null;
+		double highestResult = 0;
+		double secondHighestResult = 0;
+		for (CDOffering x: cdOfferings) {
+			double xFutureValue = futureValue(depositAmount, x.getInterestRate(), x.getTerm());
+			if (xFutureValue > highestResult) {
+				secondHighestResult = highestResult;
+				highestResult = xFutureValue;
+				secondBestOffer = bestOffer;
+				bestOffer = x;
+				
+			}
+			else if (xFutureValue > secondHighestResult) {
+				secondHighestResult = xFutureValue;
+				secondBestOffer = x;
+			}
+		}
+		return secondBestOffer;
+	}
+
+	
+	public static void setCDOfferings(CDOffering[] cdOfferings) {
 		MeritBank.cdOfferings = cdOfferings;
 	}
 	
-	public static void clearCdOfferings() {
-		MeritBank.cdOfferings = new CDOffering[0];
+	public static void clearCDOfferings() {
+		MeritBank.cdOfferings = null;
 	}
 	
 	public static long getNextAccountNumber() {
 		return nextAccountNumber++;
 	}
+	
+	public static double totalBalances() {
+		double total = 0;
+		for (AccountHolder x: accounts) {
+			total += x.getCombinedBalance();
+		}
+		return total;
+	}
 
-	double futureValue(double presentValue, double interestRate, int term) {
+	public static double futureValue(double presentValue, double interestRate, int term) {
 		return presentValue * Math.pow(1 + interestRate, term);
 	}
 }

@@ -3,20 +3,31 @@ package com.meritamerica.assignment2;
 public class MeritAmericaBankApp {
 	public static void main(String[] args) {
 		System.out.println("Hello Merit America!");
-		CDOffering oneYear = new CDOffering(1, 1.8/100);
-		CDOffering twoYear = new CDOffering(2, 1.9/100);
-		CDOffering threeYear = new CDOffering(3, 2.0/100);
-		CDOffering fiveYear = new CDOffering(5, 2.5/100);
-		CDOffering tenYear = new CDOffering(10, 2.2/100);
-		
-		AccountHolder testHolder = new AccountHolder("first", "mid", "last", "222222222222");
-		
-		CheckingAccount tmpaccount = testHolder.addCheckingAccount(100000.0);
-		CheckingAccount tmpaccount2 = testHolder.addCheckingAccount(400000.0);
+    	
+    	CDOffering[] CDOfferings = new CDOffering[5];
+    	
+    	CDOfferings[0] = new CDOffering(1,1.8/100);
+    	CDOfferings[1] = new CDOffering(2,1.9/100);
+    	CDOfferings[2] = new CDOffering(3,2.0/100);
+    	CDOfferings[3] = new CDOffering(5,2.5/100);
+    	CDOfferings[4] = new CDOffering(10,2.2/100);
+    	
+    	MeritBank.setCDOfferings(CDOfferings);
+    	
+    	AccountHolder ah1 = new AccountHolder("Megan", "", "Emacio", "ssn");
+    	
+    	ah1.addCheckingAccount(1000);   	
+    	ah1.addSavingsAccount(10000);
 
-		System.out.println(tmpaccount);
-		System.out.println(testHolder.getCheckingAccounts());
-		System.out.println(testHolder.getCheckingBalance());
-		
+    	ah1.addCheckingAccount(5000);
+    	ah1.addSavingsAccount(50000);
+    	
+    	ah1.addCheckingAccount(50000);
+    	ah1.addSavingsAccount(500000);
+    	
+    	ah1.addCheckingAccount(5000);
+    	ah1.addSavingsAccount(50000);
+
+
 	}
 } 

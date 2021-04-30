@@ -11,6 +11,8 @@ public class AccountHolder {
 	private CheckingAccount[] checkAccounts = new CheckingAccount[0];
 	private SavingsAccount[] saveAccounts = new SavingsAccount[0];
 	private CDAccount[] cdAccounts = new CDAccount[0];
+	private double combinedLimit = 250000.0;
+	
 	public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
 
 		this.firstName = firstName;
@@ -52,24 +54,30 @@ public class AccountHolder {
 	}
 	
 	public CheckingAccount addCheckingAccount(double openingBalance) {
-		CheckingAccount[] tmp = new CheckingAccount[checkAccounts.length+1];
-		for (int i = 0; i<checkAccounts.length; i++) {
-			tmp[i] = checkAccounts[i];
+		if (openingBalance+this.getCheckingBalance()+this.getSavingsBalance()<combinedLimit) {
+			CheckingAccount[] tmp = new CheckingAccount[checkAccounts.length+1];
+			for (int i = 0; i<checkAccounts.length; i++) {
+				tmp[i] = checkAccounts[i];
+			}
+			CheckingAccount newAccount = new CheckingAccount(openingBalance);
+			tmp[checkAccounts.length] = newAccount;
+			checkAccounts = tmp;
+			return newAccount;
 		}
-		CheckingAccount newAccount = new CheckingAccount(openingBalance);
-		tmp[checkAccounts.length] = newAccount;
-		checkAccounts = tmp;
-		return newAccount;
+		return null;
 	}
 	
 	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount) {
-		CheckingAccount[] tmp = new CheckingAccount[checkAccounts.length+1];
-		for (int i = 0; i<checkAccounts.length; i++) {
-			tmp[i] = checkAccounts[i];
+		if (checkingAccount.getBalance()+this.getCheckingBalance()+this.getSavingsBalance()<combinedLimit) {
+			CheckingAccount[] tmp = new CheckingAccount[checkAccounts.length+1];
+			for (int i = 0; i<checkAccounts.length; i++) {
+				tmp[i] = checkAccounts[i];
+			}
+			tmp[checkAccounts.length] = checkingAccount;
+			checkAccounts = tmp;
+			return checkingAccount;
 		}
-		tmp[checkAccounts.length] = checkingAccount;
-		checkAccounts = tmp;
-		return checkingAccount;
+		return null;
 	}
 
 	public CheckingAccount[] getCheckingAccounts() {
@@ -89,24 +97,30 @@ public class AccountHolder {
 	}
 	
 	public SavingsAccount addSavingsAccount(double openingBalance) {
-		SavingsAccount[] tmp = new SavingsAccount[saveAccounts.length+1];
-		for (int i = 0; i<saveAccounts.length; i++) {
-			tmp[i] = saveAccounts[i];
+		if (openingBalance+this.getCheckingBalance()+this.getSavingsBalance()<combinedLimit) {
+			SavingsAccount[] tmp = new SavingsAccount[saveAccounts.length+1];
+			for (int i = 0; i<saveAccounts.length; i++) {
+				tmp[i] = saveAccounts[i];
+			}
+			SavingsAccount newAccount = new SavingsAccount(openingBalance);
+			tmp[saveAccounts.length] = newAccount;
+			saveAccounts = tmp;
+			return newAccount;
 		}
-		SavingsAccount newAccount = new SavingsAccount(openingBalance);
-		tmp[saveAccounts.length] = newAccount;
-		saveAccounts = tmp;
-		return newAccount;
+		return null;
 	}
 	
 	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) {
-		SavingsAccount[] tmp = new SavingsAccount[saveAccounts.length+1];
-		for (int i = 0; i<saveAccounts.length; i++) {
-			tmp[i] = saveAccounts[i];
+		if (savingsAccount.getBalance()+this.getCheckingBalance()+this.getSavingsBalance()<combinedLimit) {
+			SavingsAccount[] tmp = new SavingsAccount[saveAccounts.length+1];
+			for (int i = 0; i<saveAccounts.length; i++) {
+				tmp[i] = saveAccounts[i];
+			}
+			tmp[saveAccounts.length] = savingsAccount;
+			saveAccounts = tmp;
+			return savingsAccount;
 		}
-		tmp[saveAccounts.length] = savingsAccount;
-		saveAccounts = tmp;
-		return savingsAccount;
+		return null;
 	}
 
 	public SavingsAccount[] getSavingsAccounts() {
