@@ -30,11 +30,13 @@ public class MeritBank {
 	public static CDOffering getBestCDOffering(double depositAmount) {
 		CDOffering bestOffer = null;
 		double highestResult = 0;
-		for (CDOffering x: cdOfferings) {
-			double xFutureValue = futureValue(depositAmount, x.getInterestRate(), x.getTerm());
-			if (xFutureValue > highestResult) {
-				highestResult = xFutureValue;
-				bestOffer = x;
+		if (cdOfferings!=null) {
+			for (CDOffering x: cdOfferings) {
+				double xFutureValue = futureValue(depositAmount, x.getInterestRate(), x.getTerm());
+				if (xFutureValue > highestResult) {
+					highestResult = xFutureValue;
+					bestOffer = x;
+				}
 			}
 		}
 		return bestOffer;
@@ -45,18 +47,20 @@ public class MeritBank {
 		CDOffering secondBestOffer = null;
 		double highestResult = 0;
 		double secondHighestResult = 0;
-		for (CDOffering x: cdOfferings) {
-			double xFutureValue = futureValue(depositAmount, x.getInterestRate(), x.getTerm());
-			if (xFutureValue > highestResult) {
-				secondHighestResult = highestResult;
-				highestResult = xFutureValue;
-				secondBestOffer = bestOffer;
-				bestOffer = x;
-				
-			}
-			else if (xFutureValue > secondHighestResult) {
-				secondHighestResult = xFutureValue;
-				secondBestOffer = x;
+		if (cdOfferings!=null) {
+			for (CDOffering x: cdOfferings) {
+				double xFutureValue = futureValue(depositAmount, x.getInterestRate(), x.getTerm());
+				if (xFutureValue > highestResult) {
+					secondHighestResult = highestResult;
+					highestResult = xFutureValue;
+					secondBestOffer = bestOffer;
+					bestOffer = x;
+					
+				}
+				else if (xFutureValue > secondHighestResult) {
+					secondHighestResult = xFutureValue;
+					secondBestOffer = x;
+				}
 			}
 		}
 		return secondBestOffer;

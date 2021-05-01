@@ -68,7 +68,7 @@ public class AccountHolder {
 	}
 	
 	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount) {
-		if (checkingAccount.getBalance()+this.getCheckingBalance()+this.getSavingsBalance()<combinedLimit) {
+		if (checkingAccount.getBalance()+this.getCheckingBalance()+this.getSavingsBalance()<combinedLimit && checkingAccount!=null) {
 			CheckingAccount[] tmp = new CheckingAccount[checkAccounts.length+1];
 			for (int i = 0; i<checkAccounts.length; i++) {
 				tmp[i] = checkAccounts[i];
@@ -111,7 +111,7 @@ public class AccountHolder {
 	}
 	
 	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) {
-		if (savingsAccount.getBalance()+this.getCheckingBalance()+this.getSavingsBalance()<combinedLimit) {
+		if (savingsAccount.getBalance()+this.getCheckingBalance()+this.getSavingsBalance()<combinedLimit && savingsAccount!=null) {
 			SavingsAccount[] tmp = new SavingsAccount[saveAccounts.length+1];
 			for (int i = 0; i<saveAccounts.length; i++) {
 				tmp[i] = saveAccounts[i];
@@ -140,24 +140,30 @@ public class AccountHolder {
 	}
 	
 	public CDAccount addCDAccount(CDOffering offering, double openingBalance) {
-		CDAccount[] tmp = new CDAccount[cdAccounts.length+1];
-		for (int i = 0; i<cdAccounts.length; i++) {
-			tmp[i] = cdAccounts[i];
+		if (offering!=null) {
+			CDAccount[] tmp = new CDAccount[cdAccounts.length+1];
+			for (int i = 0; i<cdAccounts.length; i++) {
+				tmp[i] = cdAccounts[i];
+			}
+			CDAccount newAccount = new CDAccount(offering, openingBalance);
+			tmp[cdAccounts.length] = newAccount;
+			cdAccounts = tmp;
+			return newAccount;
 		}
-		CDAccount newAccount = new CDAccount(offering, openingBalance);
-		tmp[cdAccounts.length] = newAccount;
-		cdAccounts = tmp;
-		return newAccount;
+		return null;
 	}
 	
 	public CDAccount addCDAccount(CDAccount cdAccount) {
-		CDAccount[] tmp = new CDAccount[cdAccounts.length+1];
-		for (int i = 0; i<cdAccounts.length; i++) {
-			tmp[i] = cdAccounts[i];
+		if (cdAccount!=null) {
+			CDAccount[] tmp = new CDAccount[cdAccounts.length+1];
+			for (int i = 0; i<cdAccounts.length; i++) {
+				tmp[i] = cdAccounts[i];
+			}
+			tmp[cdAccounts.length] = cdAccount;
+			cdAccounts = tmp;
+			return cdAccount;
 		}
-		tmp[cdAccounts.length] = cdAccount;
-		cdAccounts = tmp;
-		return cdAccount;
+		return null;
 	}
 
 	public CDAccount[] getCDAccounts() {
